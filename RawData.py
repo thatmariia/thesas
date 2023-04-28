@@ -431,5 +431,6 @@ class RawData:
             Edge((L1H, CSW), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE),
             Edge((R1FB, R2FB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE),
             Edge((R1FB, UFB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((R2FB, UFB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE)
+            Edge((R2FB, UFB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE),
+            Edge((R1FB, R2FB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE)
         ]
