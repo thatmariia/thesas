@@ -132,11 +132,16 @@ class RawData:
         R2_h = 4 * scale
 
         self.vertices = [
-            VOUT, VIN, SW, FB, GND, VS, COV, COG, JOV, JOG, L1L, L1H, JIG, JIV, CIG, CIV, UVI, USW, UG, UFB, UEN, UVS,
-            CSW, CVS, R1V, R1FB, R2FB, R2G,
-            CO_1, CO_2, CO_3, CO_4, JO_1, JO_2, JO_3, JO_4, L1_1, L1_2, L1_3, L1_4, JI_1, JI_2, JI_3, JI_4, CI_1, CI_2,
-            CI_3, CI_4, U_1, U_2, U_3, U_4,
-            C1_1, C1_2, C1_3, C1_4, R1_1, R1_2, R1_3, R1_4, R2_1, R2_2, R2_3, R2_4
+            CO_1, CO_2, CO_3, CO_4, COV, COG,
+            JO_1, JO_2, JO_3, JO_4, JOG, JOV,
+            L1_1, L1_2, L1_3, L1_4, L1L, L1H,
+            JI_1, JI_2, JI_3, JI_4, JIG, JIV,
+            CI_1, CI_2, CI_3, CI_4, CIG, CIV,
+            U_1, U_2, U_3, U_4, UVI, USW, UG, UFB, UEN, UVS,
+            C1_1, C1_2, C1_3, C1_4, CSW, CVS,
+            R1_1, R1_2, R1_3, R1_4, R1V, R1FB,
+            R2_1, R2_2, R2_3, R2_4, R2FB, R2G,
+            VOUT, VIN, SW, FB, GND, VS
         ]
 
         diag_tolerane = 1
