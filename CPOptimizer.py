@@ -289,7 +289,6 @@ class CPOptimizer:
 
     def _add_fixed_edges_dist_constraints(self):
         for edge in self.graph.edges_by_dist_type[EdgeDistType.FIXED]:
-            print(edge, self.graph.reference_distances[edge] ** 2)
             self.model.Add(
                 self.dists2[edge] == self.graph.reference_distances[edge] ** 2
             )
@@ -376,8 +375,8 @@ class CPOptimizer:
             component_vertices = set()
             for edge in self.graph.component_edges[i]:
                 u, v = edge.vertices[0], edge.vertices[1]
-                component_vertices.add(u)
-                component_vertices.add(v)
+                component_vertices.add(u.name)
+                component_vertices.add(v.name)
 
             # check that no vertex is inside the component
             for vertex in self.graph.vertices:
@@ -386,16 +385,13 @@ class CPOptimizer:
                 conditions = [
                     self.model.NewBoolVar(f'no_points_within_{component}_{vertex}_{i}') for i in range(4)
                 ]
-                self.model.Add(self.pos_x[vertex] > min_x).OnlyEnforceIf(conditions[0])
-                self.model.Add(self.pos_x[vertex] <= min_x).OnlyEnforceIf(conditions[0].Not())
-                self.model.Add(self.pos_x[vertex] < max_x).OnlyEnforceIf(conditions[1])
-                self.model.Add(self.pos_x[vertex] >= max_x).OnlyEnforceIf(conditions[1].Not())
-                self.model.Add(self.pos_y[vertex] > min_y).OnlyEnforceIf(conditions[2])
-                self.model.Add(self.pos_y[vertex] <= min_y).OnlyEnforceIf(conditions[2].Not())
-                self.model.Add(self.pos_y[vertex] < max_y).OnlyEnforceIf(conditions[3])
-                self.model.Add(self.pos_y[vertex] >= max_y).OnlyEnforceIf(conditions[3].Not())
-                self.model.AddBoolOr([conditions[0].Not(), conditions[1].Not(), conditions[2].Not(), conditions[3].Not()])
-                # self.model.Add(sum(conditions) != 4)
+                self.model.Add(self.pos_x[vertex] < min_x).OnlyEnforceIf(conditions[0])
+                self.model.Add(self.pos_x[vertex] > max_x).OnlyEnforceIf(conditions[1])
+                self.model.Add(self.pos_y[vertex] < min_y).OnlyEnforceIf(conditions[2])
+                self.model.Add(self.pos_y[vertex] > max_y).OnlyEnforceIf(conditions[3])
+
+                # At least one of the conditions must be true for the point to be outside the box
+                self.model.Add(sum(conditions) >= 1)
 
     def _add_non_containing_boxes_constraints(self):
         for box1, box2 in combinations(self.graph.component_bounds, 2):
