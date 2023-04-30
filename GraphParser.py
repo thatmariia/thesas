@@ -92,7 +92,6 @@ class Graph:
             u = e.vertices[0].name
             v = e.vertices[1].name
             if (u, v) == edge:
-                print(e.importance.value)
                 return e.importance.value
 
     def visualize(self, name="graphieee", display_dist=True):

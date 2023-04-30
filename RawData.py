@@ -422,19 +422,24 @@ class RawData:
             Edge((GND, R2G), EdgeDistType.UNIMPORTANT, EdgeConnectionType.WIRE),
 
             # distance edges
+            # Input capacitor is as close to device as possible
             Edge((CIV, UVI), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
-            Edge((COV, USW), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
-            Edge((R1V, USW), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((JIV, UVI), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            # Output capacitor is as close to device as possible
+            Edge((COV, JOV), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            # FB resistors are as far from SW as possible
             Edge((R1V, CSW), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
             Edge((R1V, L1H), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
-            Edge((R2G, USW), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
             Edge((R2G, CSW), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
             Edge((R2G, L1H), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
-            Edge((CVS, UVS), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
-            Edge((L1H, USW), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
-            Edge((L1H, CSW), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
-            Edge((R1FB, R2FB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
-            Edge((R1FB, UFB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
-            Edge((R2FB, UFB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
-            Edge((R1FB, R2FB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1)
+            # FB resistors are close to the device
+            Edge((R1FB, R2FB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_2),
+            Edge((R1FB, UFB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_2),
+            Edge((R2FB, UFB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_2),
+            Edge((R1FB, R2FB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_2),
+            # Boost capacitor is as close to device
+            Edge((CVS, UVS), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_3),
+            # SW distance is as close as possible
+            Edge((L1H, USW), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_3),
+            Edge((L1H, CSW), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_3)
         ]
