@@ -1,4 +1,4 @@
-from GraphParser import NodeType, EdgeDistType, EdgeConnectionType, Node, Edge
+from GraphParser import NodeType, EdgeDistType, EdgeConnectionType, Node, Edge, EdgeDistanceImportance
 import numpy as np
 
 
@@ -422,20 +422,19 @@ class RawData:
             Edge((GND, R2G), EdgeDistType.UNIMPORTANT, EdgeConnectionType.WIRE),
 
             # distance edges
-            Edge((CIV, UVI), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((COV, USW), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((R1V, USW), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((R1V, CSW), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((R1V, L1H), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((R2G, USW), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((R2G, CSW), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((R2G, L1H), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((CVS, UVS), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE),
-            # Edge((UFB, L1H), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((L1H, USW), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((L1H, CSW), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((R1FB, R2FB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((R1FB, UFB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((R2FB, UFB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE),
-            Edge((R1FB, R2FB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE)
+            Edge((CIV, UVI), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((COV, USW), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((R1V, USW), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((R1V, CSW), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((R1V, L1H), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((R2G, USW), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((R2G, CSW), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((R2G, L1H), EdgeDistType.MAXIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((CVS, UVS), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((L1H, USW), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((L1H, CSW), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((R1FB, R2FB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((R1FB, UFB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((R2FB, UFB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1),
+            Edge((R1FB, R2FB), EdgeDistType.MINIMIZE, EdgeConnectionType.DISTANCE, importance=EdgeDistanceImportance.LVL_1)
         ]

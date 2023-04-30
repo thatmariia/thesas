@@ -6,6 +6,11 @@ from scipy.spatial.distance import pdist, squareform
 import os
 
 
+class EdgeDistanceImportance(Enum):
+    LVL_1 = 1
+    LVL_2 = 5
+    LVL_3 = 7
+
 class NodeType(Enum):
     VIRTUAL = 1
     REAL = 2
@@ -43,12 +48,14 @@ class Edge:
             vertices: tuple[Node, Node],
             edge_dist_type: EdgeDistType,
             edge_connection_type: EdgeConnectionType,
-            reference_dist: float = 0
+            reference_dist: float = 0,
+            importance: EdgeDistanceImportance = EdgeDistanceImportance.LVL_1
     ):
         self.vertices = vertices
         self.edge_dist_type = edge_dist_type
         self.edge_connection_type = edge_connection_type
         self.reference_dist = int(round(reference_dist))
+        self.importance = importance
 
 
 class Graph:
@@ -79,6 +86,14 @@ class Graph:
             self.edges_by_connection_type[EdgeConnectionType.BORDER]
         )
         self.positions = nx.spring_layout(self.nx_graph)
+
+    def get_edge_importance(self, edge: tuple[str, str]):
+        for e in self.unparsed_edges:
+            u = e.vertices[0].name
+            v = e.vertices[1].name
+            if (u, v) == edge:
+                print(e.importance.value)
+                return e.importance.value
 
     def visualize(self, name="graphieee", display_dist=True):
         fig, ax = plt.subplots()

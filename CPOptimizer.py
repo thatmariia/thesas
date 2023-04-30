@@ -1,4 +1,4 @@
-from GraphParser import Graph, EdgeConnectionType, EdgeDistType
+from GraphParser import Graph, EdgeConnectionType, EdgeDistType, EdgeDistanceImportance
 from ortools.sat.python import cp_model
 from itertools import combinations, product
 from copy import deepcopy
@@ -139,8 +139,8 @@ class CPOptimizer:
 
     def _get_objective_bound(self):
         obj1_bound = len(self.graph.edges_by_connection_type[EdgeConnectionType.WIRE]) ** 2 + 1
-        obj2_bound = (self.max_for_minimize) * len(self.graph.edges_by_dist_type[EdgeDistType.MINIMIZE])
-        obj3_bound = ((self.w**2 + self.h**2) - self.min_for_maximize) * len(self.graph.edges_by_dist_type[EdgeDistType.MAXIMIZE])
+        obj2_bound = EdgeDistanceImportance.LVL_3.value * (self.max_for_minimize) * len(self.graph.edges_by_dist_type[EdgeDistType.MINIMIZE])
+        obj3_bound = EdgeDistanceImportance.LVL_3.value * ((self.w**2 + self.h**2) - self.min_for_maximize) * len(self.graph.edges_by_dist_type[EdgeDistType.MAXIMIZE])
         total_obj = obj1_bound * (obj2_bound + obj3_bound)
         return obj1_bound, obj2_bound, obj3_bound, total_obj
 
@@ -159,7 +159,8 @@ class CPOptimizer:
             for e in self.graph.edges_by_dist_type[EdgeDistType.MINIMIZE]
         }
         for e in self.graph.edges_by_dist_type[EdgeDistType.MINIMIZE]:
-            self.model.Add(min_dist_errors[e] == self.dists2[e])
+            coef = self.graph.get_edge_importance(e)
+            self.model.Add(min_dist_errors[e] == coef * self.dists2[e])
         self.model.Add(objective_min_dist == sum(min_dist_errors.values()) + 1)
 
         # --- objective for maximizing the distance between edges that needs to be maximized
@@ -170,7 +171,8 @@ class CPOptimizer:
             for e in self.graph.edges_by_dist_type[EdgeDistType.MAXIMIZE]
         }
         for e in self.graph.edges_by_dist_type[EdgeDistType.MAXIMIZE]:
-            self.model.Add(max_dist_errors[e] == max_dist - self.dists2[e])
+            coef = self.graph.get_edge_importance(e)
+            self.model.Add(max_dist_errors[e] == coef * (max_dist - self.dists2[e]))
         self.model.Add(objective_max_dist == sum(max_dist_errors.values()) + 1)
 
         # --- final objective
